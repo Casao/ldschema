@@ -1,7 +1,8 @@
-import handlers from './modules/handlers';
+import $ from 'jquery';
 import msg from './modules/msg';
 import form from './modules/form';
 import runner from './modules/runner';
+import JSONFormatter from 'json-formatter-js';
 
 // here we use SHARED message handlers, so all the contexts support the same
 // commands. but this is NOT typical messaging system usage, since you usually
@@ -14,6 +15,17 @@ import runner from './modules/runner';
 // issue command requests from this context), you may simply omit the
 // `handlers` parameter for good when invoking msg.init()
 
-console.log('POPUP SCRIPT WORKS!'); // eslint-disable-line no-console
+var schemaList = (schemas) => {
+    var data = schemas.map((val) => JSON.parse(val));
+    var formatter = new JSONFormatter(data, 'Infinity');
+    $('#contents').html(formatter.render());
+}
 
-form.init(runner.go.bind(runner, msg.init('popup', handlers.create('popup'))));
+const handlers = { schemaList: schemaList };
+const messages = msg.init('popup', handlers)
+
+form.init(runner.go.bind(runner, messages));
+
+window.onload = () => {
+    messages.bcast('getSchemas');
+}

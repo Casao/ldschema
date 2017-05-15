@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import handlers from './modules/handlers';
 import msg from './modules/msg';
 
 // here we use SHARED message handlers, so all the contexts support the same
@@ -13,8 +12,18 @@ import msg from './modules/msg';
 // issue command requests from this context), you may simply omit the
 // `handlers` parameter for good when invoking msg.init()
 
-console.log('CONTENT SCRIPT WORKS!'); // eslint-disable-line no-console
+const getSchemaHandler = () => {
+    var schemas = document.querySelectorAll("script[type='application/ld+json']");
 
-msg.init('ct', handlers.create('ct'));
+    var schemaTexts = [];
 
-console.log('jQuery version:', $().jquery); // eslint-disable-line no-console
+    schemas.forEach(function (ele, i, _) {
+        schemaTexts.push(ele.text);
+    });
+
+    messages.bcast('schemaList', schemaTexts);
+}
+
+const handlers = { getSchemas: getSchemaHandler }
+
+var messages = msg.init('ct', handlers);
