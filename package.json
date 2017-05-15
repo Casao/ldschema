@@ -1,7 +1,7 @@
 {
-  "name": "extension-skeleton",
-  "version": "0.3.0",
-  "description": "Bare Google Chrome extension skeleton.",
+  "name": "ld_json-schema",
+  "version": "1.0.0",
+  "description": "View LD+JSON schemas in a structured view",
   "engines": {
     "node": "7.0.0",
     "npm": "3.10.8"
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "jquery": "3.1.1",
+    "json-formatter-js": "^2.2.0",
     "lodash": "4.17.4"
   },
   "devDependencies": {
